@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h2 class="mb-4">All Books</h2>
+        <a href="{{ url_for('main.create_book') }}" class="btn btn-primary mb-3">Add New Book</a>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Cover</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Number of Pages</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in books %}
+                    <tr>
+                        <td>
+                            {% if book.cover_photo %}
+                                <img src="{{ url_for('static', filename='uploads/' ~ book.cover_photo) }}" alt="{{ book.title }}" class="img-thumbnail" style="width:100px;height:150px;">
+                            {% else %}
+                                <p>No cover image</p>
+                            {% endif %}
+                        </td>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.number_of_pages }}</td>
+                        <td>{{ book.description|truncate(50) }}</td>
+                        <td>
+                            <a href="{{ url_for('main.book_detail', book_id=book.id) }}" class="btn btn-info btn-sm">Show</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
